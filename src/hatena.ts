@@ -7,7 +7,7 @@ export interface WebPage {
 
 export async function getURL(): Promise<string | undefined | null> {
   const result = await getRequest();
-  return fetchURL(result);
+  return discoverURL(result);
 }
 
 export async function getRequest(): Promise<string> {
@@ -17,7 +17,7 @@ export async function getRequest(): Promise<string> {
   return body;
 }
 
-export async function fetchURL(response: string) {
+async function discoverURL(response: string) {
   const $ = cheerio.load(response);
   return $(".entrylist-header-main").find("button").attr("data-href");
 }
