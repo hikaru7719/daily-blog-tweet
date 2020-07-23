@@ -1,4 +1,4 @@
-import { getURL, getRequest } from "../src/hatena";
+import { getURL, getRequest } from "../src/source";
 
 test("loadPage test", async () => {
   expect.assertions(1);
