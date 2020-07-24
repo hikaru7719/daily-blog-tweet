@@ -11,5 +11,8 @@ jobs:
           node-version: 14.5.0
       - run: npm install -g yarn
       - run: yarn install
+        working-directory: ./app
       - run: yarn build
+        working-directory: ./app
       - run: yarn test
+        working-directory: ./app
