@@ -5,6 +5,7 @@
   "author": "hikaru7719",
   "license": "MIT",
   "scripts": {
+    "dev": "ts-node src/index.ts",
     "test": "jest",
     "test:target": "jest test/target.test.ts"
   },
@@ -22,6 +23,7 @@
     "dotenv": "^8.2.0",
     "encodeurl": "^1.0.2",
     "jest": "^26.1.0",
+    "ts-node": "^8.10.2",
     "typed-rest-client": "^1.7.3"
   }
 }
