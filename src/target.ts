@@ -4,16 +4,22 @@ import crypto from "crypto";
 import { Config } from "config";
 
 export interface Message {
-  send(): void;
+  send(sourceURL: string, config: Config): Promise<Result>;
 }
 
-export async function send(config: Config, news: string) {
+type Result = {
+  statusCode?: number;
+  message: string;
+};
+
+export async function send(sourceURL: string, config: Config): Promise<Result> {
   const client = new hc.HttpClient(null);
-  const status = createStatus(news);
+  const status = createStatus(sourceURL);
   const url = "https://api.twitter.com/1.1/statuses/update.json";
   const header = makeRequestOption(config, [status], "POST", url);
-  const resp = await client.post(url, `${pairToString(status)}`, header);
-  return resp.readBody();
+  const resp = await client.post(url, pairToString(status), header);
+  const message = await resp.readBody();
+  return { statusCode: resp.message.statusCode, message };
 }
 
 const messages = [
@@ -157,4 +163,10 @@ function createSign(auth: Config, param: Pair[], method: string, url: string) {
   const key = createSigningKey(auth.apiSecretKey, auth.accessTokenSecret);
   const sign = calcSignature(baseString, key);
   return { nonce, timestamp, sign };
+}
+
+export function make(): Message {
+  return {
+    send,
+  };
 }
